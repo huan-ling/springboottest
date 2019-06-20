@@ -1,5 +1,6 @@
 package com.huan.springboottest.user.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,8 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("user")
 public class UserController {
 
-    @RequestMapping("get")
+    @GetMapping("get")
     public String get(){
         return "OK!";
+    }
+
+    @GetMapping("test")
+    public String test(){
+        return "11";
     }
 }
