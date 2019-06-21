@@ -11,6 +11,20 @@ public class SpringboottestApplicationTests {
 
     @Test
     public void contextLoads() {
+        final Aoo  aoo = new Aoo();
+        aoo.setNum(1);
+    }
+
+    class Aoo{
+        private int num;
+
+        public int getNum() {
+            return num;
+        }
+
+        public void setNum(int num) {
+            this.num = num;
+        }
     }
 
 }
