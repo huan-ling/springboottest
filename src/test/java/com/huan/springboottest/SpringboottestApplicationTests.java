@@ -1,30 +1,25 @@
 package com.huan.springboottest;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.SequenceInputStream;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
-/*@RunWith(SpringRunner.class)
-@SpringBootTest*/
+/**
+ * 文件合并test
+ */
 public class SpringboottestApplicationTests {
 
     @Test
     public void test1() throws IOException {
-        FileInputStream fis = new FileInputStream("D://a-core/VS2008.iso");
+        FileInputStream fis = new FileInputStream("F:\\BaiduNetdiskDownload/sql_server_2014.iso");
         byte[] data = new byte[1024 * 1024 * 1024];
         int i = -1;
         FileOutputStream fos = null;

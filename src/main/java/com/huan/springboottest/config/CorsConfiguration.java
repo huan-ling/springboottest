@@ -17,7 +17,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
                 addMapping("/**").
                 allowedHeaders("*").
                 allowedMethods("*").
-                allowedOrigins("http://127.0.0.1:9997").
+                allowedOrigins("*").
                 allowCredentials(true);
     }
 }
