@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huan.springboottest.react.test.mapper.UserMapper">
+
+  <select id="getAll" resultType="com.huan.springboottest.react.test.pojo.User">
+    select u.id,u_name uName,u.age,u.address,d.name deptName from user u
+    left join dept d
+    on u.dept_id=d.id
+  </select>
+
+  <select id="getByDId" resultType="com.huan.springboottest.react.test.pojo.User">
+    select u.id,u.u_name uName,u.age,u.address,d.name deptName from user u
+    left join dept d
+    on u.dept_id=d.id
+    where u.dept_id = #{deptId}
+  </select>
+
+</mapper>

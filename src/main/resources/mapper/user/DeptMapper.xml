@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huan.springboottest.react.test.mapper.DeptMapper">
+
+  <select id="getAll" resultType="com.huan.springboottest.react.test.pojo.Dept">
+    select id,`name`,p_id pId from dept
+  </select>
+
+  <select id="getById" resultType="com.huan.springboottest.react.test.pojo.Dept">
+    select id,`name`,p_id pId from dept where id =#{id}
+  </select>
+
+  <select id="getChildById" resultType="com.huan.springboottest.react.test.dto.DeptTreeDto">
+    select id,`name`,p_id pId from dept where p_id=#{id}
+  </select>
+
+
+</mapper>
