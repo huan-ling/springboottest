@@ -56,7 +56,7 @@ public class SpringboottestApplicationTests {
 
         };
         SequenceInputStream sis = new SequenceInputStream(en);
-        FileOutputStream fos = new FileOutputStream("D://a-core/1.iso");
+        FileOutputStream fos = new FileOutputStream("D://a-core/1.zip");
         byte[] buf = new byte[1024 * 1024];
         int count = -1;
         while ((count = sis.read(buf)) != -1) {
