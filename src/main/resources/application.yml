@@ -1,5 +1,7 @@
 server:
-  port: 80
+  port: 8080
+  servlet:
+    context-path: /test
 spring:
   datasource:
     # 使用druid数据源
