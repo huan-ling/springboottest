@@ -1,19 +1,32 @@
 package com.huan.springboottest.react.test.pojo;
 
+
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 /**
  * @Author: Huan
  * @CreateTime: 2019-07-15 10:03
  */
+@Table(name = "user")
+@Entity
 public class User implements Serializable {
 
     private static final long serialVersionUID = 7464820959984426229L;
+    @Id
     private int id;
+    @Column(name = "u_name")
     private String uName;
     private int age;
     private String address;
+    @Column(name = "dept_id")
     private int deptId;
+    @Transient
     private String deptName;
 
     public int getId() {

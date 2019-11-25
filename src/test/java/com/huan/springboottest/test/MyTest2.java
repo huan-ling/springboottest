@@ -1,9 +1,13 @@
 package com.huan.springboottest.test;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.assertj.core.util.Lists;
-import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: wb_xugz
@@ -11,13 +15,31 @@ import java.util.List;
  */
 public class MyTest2 {
 
-    @Test
-    public void test() {
-        List<Integer> list = Lists.newArrayList(1, 2, 3);
-        List<Integer> list2 = list.subList(0, 2);
-        list.add(4);
-        System.out.println(list2.size());//java.util.ConcurrentModificationException
-        // 可以new ArrayList<>(list2);的方式创建一个新的集合解决
+    public static void main(String[] args) {
+        List<String> list = Lists.newArrayList("1", "2", "3");
+        List<String> collect = list.stream().map(t -> t.concat("1")).collect(Collectors.toList());
+        System.out.println(collect);
+
+        Arrays.sort(new Integer[]{1, 2}, (t1, t2) -> t2 - t1);
+
+        Animal animal = Person::new;
+        animal.set(1);
+        System.out.println("animal = " + animal);
     }
 }
 
+@Getter
+@Setter
+@ToString
+class Person {
+    private int id;
+    private String name;
+
+    public Person(int id) {
+
+    }
+}
+
+interface Animal {
+    Object set(int id);
+}

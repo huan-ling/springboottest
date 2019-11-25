@@ -5,6 +5,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
+ * 跨域配置
  * @Author: Huan
  * @CreateTime: 2019-06-20 15:58
  */
@@ -13,11 +14,11 @@ public class CorsConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-//        registry.
-//                addMapping("/**").
-//                allowedHeaders("*").
-//                allowedMethods("*").
-//                allowedOrigins("*").
-//                allowCredentials(true);
+        registry.
+                addMapping("/**").
+                allowedHeaders("*").
+                allowedMethods("*").
+                allowedOrigins("*").
+                allowCredentials(true);
     }
 }

@@ -25,5 +25,12 @@ spring:
     password: root
     url: jdbc:mysql://127.0.0.1:3306/spirngboot_test?useUnicode=true&characterEncoding=UTF-8
 
+  jpa:
+    database: MySQL
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
 mybatis:
   mapper-locations: classpath*:mapper/*/*.xml
