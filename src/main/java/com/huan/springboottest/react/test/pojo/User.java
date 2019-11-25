@@ -2,6 +2,8 @@ package com.huan.springboottest.react.test.pojo;
 
 
 
+import com.baomidou.mybatisplus.annotations.TableField;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,6 +29,7 @@ public class User implements Serializable {
     @Column(name = "dept_id")
     private int deptId;
     @Transient
+    @TableField(exist = false)
     private String deptName;
 
     public int getId() {
