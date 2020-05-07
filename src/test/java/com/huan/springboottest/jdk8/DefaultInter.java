@@ -6,6 +6,7 @@ package com.huan.springboottest.jdk8;
  */
 public interface DefaultInter {
 
+
     static void staticTest(){
         System.out.println("这是一个静态方法测试");
     }

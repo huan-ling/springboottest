@@ -1,6 +1,7 @@
 package com.huan.springboottest.react.test.mapper;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.huan.springboottest.react.test.pojo.User;
 
 /**

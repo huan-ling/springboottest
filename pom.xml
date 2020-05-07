@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <poi.version>3.17</poi.version>
     </properties>
 
     <dependencies>
@@ -118,7 +119,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>2.2.0</version>
+            <version>3.3.1</version>
         </dependency>
         <!-- freemarker -->
         <dependency>
@@ -131,6 +132,50 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.15</version>
         </dependency>
+        <!--    -->
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-examples</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>fr.opensagres.xdocreport</groupId>-->
+<!--            <artifactId>org.apache.poi.xwpf.converter.pdf</artifactId>-->
+<!--            <version>1.0.6</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>fr.opensagres.xdocreport</groupId>-->
+<!--            <artifactId>org.apache.poi.xwpf.converter.core</artifactId>-->
+<!--            <version>1.0.6</version>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>fr.opensagres.xdocreport</groupId>
+            <artifactId>fr.opensagres.poi.xwpf.converter.pdf-gae</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext-rtf</artifactId>
+            <version>2.1.7</version>
+        </dependency>
+
     </dependencies>
 
     <build>

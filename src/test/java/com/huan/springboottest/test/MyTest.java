@@ -52,7 +52,7 @@ public class MyTest {
         System.out.println("s = " + s);//s = 3245
 
         // 保留字符串当中的数字
-        String s2 = CharMatcher.inRange('0', '9').retainFrom("s7fuerouw9");
+        String s2 = CharMatcher.inRange('0', '9').retainFrom("s7fuerouw09");
         System.out.println("s2 = " + s2);//s2 = 79
 
         String s3 = CharMatcher.inRange('0', '9').replaceFrom("se45ert3", "D");

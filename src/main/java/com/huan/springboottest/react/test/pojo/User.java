@@ -1,8 +1,11 @@
 package com.huan.springboottest.react.test.pojo;
 
 
-
-import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +20,10 @@ import java.io.Serializable;
  */
 @Table(name = "user")
 @Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements Serializable {
 
     private static final long serialVersionUID = 7464820959984426229L;

@@ -1,33 +1,46 @@
 package com.huan.springboottest.test;
 
 
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 
-import java.util.HashMap;
+import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
+import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.junit.Test;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
+ * of生成of的静态方法 生成该对象
+ * slf4j 生成一个log的静态日志变量
  * @Author: wb_xugz
  * @CreateTime: 2019-11-25 14:10
  */
-@Data(staticConstructor = "of")
-@Slf4j
+//@Data(staticConstructor = "of")
+//@Slf4j
 public class MyTest3 {
 
     public static void main(String[] args) {
-        val a = new HashMap<>();
-        val b = 1;
-        MyTest3 myTest3 = MyTest3.of();
-
-        f(null);
-        log.info("{}{}", "a", "b");
+        System.out.println("a" == "a");
+        //POIXMLDocumentPart
     }
 
-    public static void f(Integer a) {
-        System.out.println("a = " + a);
+    @Test
+    public void test1() throws Exception {
+        String docPath = "E:\\2020-dev\\管理文件\\05\\软件功能设计书（管理文件翻新OA）.docx";
+        String pdfPath = "E:\\2020-dev\\管理文件\\05\\test.pdf";
+
+        XWPFDocument document;
+        InputStream doc = new FileInputStream(docPath);
+        document = new XWPFDocument(doc);
+        PdfOptions options = PdfOptions.create();
+        OutputStream out = new FileOutputStream(pdfPath);
+        PdfConverter.getInstance().convert(document, out, options);
+
+        doc.close();
+        out.close();
     }
-
-
 }
 
