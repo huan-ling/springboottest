@@ -1,7 +1,9 @@
 package word;
 
+import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringExclude;
 import org.apache.poi.util.Units;
 import org.apache.poi.wp.usermodel.HeaderFooterType;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
@@ -9,6 +11,7 @@ import org.apache.poi.xwpf.usermodel.Borders;
 import org.apache.poi.xwpf.usermodel.BreakType;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.TextAlignment;
+import org.apache.poi.xwpf.usermodel.TextSegement;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFFooter;
 import org.apache.poi.xwpf.usermodel.XWPFHeader;
@@ -16,9 +19,12 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFPicture;
 import org.apache.poi.xwpf.usermodel.XWPFPictureData;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.xmlbeans.impl.xb.xmlschema.SpaceAttribute;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTFldChar;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTFonts;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTabStop;
@@ -43,6 +49,16 @@ import java.math.BigInteger;
  */
 @Slf4j
 public class WordTest {
+
+    public void test1(){
+        XWPFDocument doc = new XWPFDocument();
+        XWPFTable table = doc.createTable(1, 1);
+        XWPFParagraph paragraph = table.getRow(1).getCell(1).getParagraphs().get(0);
+        XWPFRun run = paragraph.createRun();
+        XWPFTableCell cell = table.getRow(1).getCell(1);
+        XWPFParagraph xwpfParagraph = cell.addParagraph();
+        CTP ctp = xwpfParagraph.getCTP();
+    }
 
     public static void main(String[] args) throws Exception{
         XWPFDocument doc = new XWPFDocument();

@@ -312,7 +312,6 @@ public class WordUtils {
             //FileUtils.downloadFileFromUrl(WordConstant.TEMPLATE_URL, wordTemplate);
             OPCPackage pack = POIXMLDocument.openPackage(wordTemplate);
             document = new CustomXWPFDocument(pack);
-            WordTest.createHeader(document, "公司", "32");
             // 添加内容到文档中
             addChunks(wordPOs, document);
             // 生成目标word
