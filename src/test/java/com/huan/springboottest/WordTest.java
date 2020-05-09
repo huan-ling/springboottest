@@ -1,14 +1,19 @@
 package com.huan.springboottest;
 
+import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.poifs.filesystem.DirectoryNode;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.util.Units;
+import org.apache.poi.xwpf.usermodel.Document;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFPicture;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.apache.xmlbeans.XmlCursor;
 import org.junit.Test;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTHMerge;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth;
@@ -17,9 +22,10 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTVMerge;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STMerge;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
+import org.springframework.web.util.HtmlUtils;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.math.BigInteger;
@@ -31,6 +37,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @CreateTime: 2020-05-08 08:46
  */
 public class WordTest {
+
+    @Test
+    public void test3() throws Exception {
+        String html = "";
+        System.out.println(HtmlUtils.htmlUnescape("<html></html>"));
+
+    }
 
     @Test
     public void test2() throws Exception {
@@ -61,7 +74,6 @@ public class WordTest {
         paragraph.setAlignment(ParagraphAlignment.CENTER);
 
 
-
         XWPFTable table = doc.createTable(3, 4);
         List<XWPFTableRow> rows = table.getRows();
         rows.forEach(r -> {
@@ -84,8 +96,19 @@ public class WordTest {
         XWPFParagraph paragraphArray = cell.getParagraphArray(0);
         paragraphArray.setAlignment(ParagraphAlignment.CENTER);
         XWPFRun run1 = paragraphArray.createRun();
-        run1.setText("112");
+        run1.setText("32");
         run1.setFontSize(23);
+
+        XmlCursor xmlCursor = paragraphArray.getCTP().newCursor();
+        XWPFTable table1 = cell.insertNewTbl(xmlCursor);
+        XWPFTableRow row = table1.createRow();
+        XWPFTableCell cell2 = row.createCell();
+        XWPFParagraph paragraph1 = cell2.addParagraph();
+        XWPFRun run2 = paragraph1.createRun();
+        run2.setText("23");
+
+        XWPFPicture picture = run1.addPicture(new FileInputStream("图片1.png"), Document.PICTURE_TYPE_PNG, "图片1", Units.pixelToEMU(50),Units.pixelToEMU(50));
+        System.out.println(Units.pixelToEMU(50));
 
         XWPFTableCell cell1 = table.getRow(1).getCell(2);
         setColMerge(cell1, STMerge.CONTINUE);
