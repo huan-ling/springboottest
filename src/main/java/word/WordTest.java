@@ -74,6 +74,7 @@ public class WordTest {
         r = p.createRun();
         r.setText("Goodbye");
 
+        createHeader(doc,"公司", "2");
         createFooter(doc, "211", "23");
 
         OutputStream os = new FileOutputStream(new File("header2.docx"));
@@ -90,7 +91,9 @@ public class WordTest {
         XWPFHeaderFooterPolicy headerFooterPolicy = new XWPFHeaderFooterPolicy(doc, sectPr);
         XWPFHeader header = headerFooterPolicy.createHeader(XWPFHeaderFooterPolicy.DEFAULT);
 
-        XWPFParagraph paragraph = header.getParagraphArray(0);
+        XWPFParagraph paragraph;
+        paragraph = header.createParagraph();
+        //XWPFParagraph paragraph = header.getParagraphArray(0);
         paragraph.setAlignment(ParagraphAlignment.LEFT);
         paragraph.setBorderBottom(Borders.THICK);
 
@@ -113,11 +116,11 @@ public class WordTest {
 
             XWPFPicture picture = run.addPicture(is, XWPFDocument.PICTURE_TYPE_JPEG, imgFile, Units.toEMU(80), Units.toEMU(45));
 
-            String blipID = "";
-            for (XWPFPictureData picturedata : header.getAllPackagePictures()) {    //这段必须有，不然打开的logo图片不显示
-                blipID = header.getRelationId(picturedata);
-            }
-            picture.getCTPicture().getBlipFill().getBlip().setEmbed(blipID);
+//            String blipID = "";
+//            for (XWPFPictureData picturedata : header.getAllPackagePictures()) {    //这段必须有，不然打开的logo图片不显示
+//                blipID = header.getRelationId(picturedata);
+//            }
+//            picture.getCTPicture().getBlipFill().getBlip().setEmbed(blipID);
             run.addTab();
             is.close();
         }

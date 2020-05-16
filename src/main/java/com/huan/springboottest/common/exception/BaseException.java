@@ -19,6 +19,10 @@ public class BaseException extends RuntimeException{
         this.desc = desc;
     }
 
+    public static BaseException of(String desc){
+        return new BaseException(desc);
+    }
+
     public BaseException(int code,String desc){
         super(desc);
         this.code = code;

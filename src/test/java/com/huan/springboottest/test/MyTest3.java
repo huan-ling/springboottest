@@ -1,16 +1,20 @@
 package com.huan.springboottest.test;
 
 
-
+import com.huan.springboottest.common.util.UUIDUtil;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.junit.Test;
+import sun.plugin.util.UIUtil;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * of生成of的静态方法 生成该对象
@@ -23,8 +27,7 @@ import java.io.OutputStream;
 public class MyTest3 {
 
     public static void main(String[] args) {
-        System.out.println("a" == "a");
-        //POIXMLDocumentPart
+        System.out.println(UUIDUtil.getUUID());
     }
 
     @Test

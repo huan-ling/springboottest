@@ -39,6 +39,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class WordTest {
 
     @Test
+    public void test4(){
+        System.out.println(Units.pixelToEMU(10));
+        System.out.println(Units.toEMU(0.8));
+        System.out.println(Units.pointsToPixel(0.8));
+        System.out.println(Units.pointsToPixel(0.7));
+    }
+
+    @Test
     public void test3() throws Exception {
         String html = "";
         System.out.println(HtmlUtils.htmlUnescape("<html></html>"));
