@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Author: wb_xugz
  * @CreateTime: 2020-05-08 08:46
  */
-public class WordTest {
+public class WordMerge {
 
     @Test
     public void test4(){

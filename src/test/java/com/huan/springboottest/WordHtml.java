@@ -34,7 +34,7 @@ import java.util.Iterator;
  * @Author: wb_xugz
  * @CreateTime: 2020-05-08 10:41
  */
-public class WordTest2 {
+public class WordHtml {
     public static void main(String[] args) throws Exception {
         String tableContent = "<table cellspacing=\"0\" cellpadding=\"0\" width=\"0\"><tbody><tr><td align=\"CENTER\"" +
                 " style=\"border: 1px solid gray\" width=\"30\">班级</td><td align=\"CENTER\" " +

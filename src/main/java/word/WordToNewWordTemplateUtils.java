@@ -22,7 +22,7 @@ import java.util.Set;
  * @Author: wb_xugz
  * @CreateTime: 2020-05-16 14:23
  */
-public class WorderToNewWordUtils {
+public class WordToNewWordTemplateUtils {
     /**
      * 根据模板生成新word文档
      * 判断表格是需要替换还是需要插入，判断逻辑有$为替换，表格无$为插入
@@ -41,9 +41,9 @@ public class WorderToNewWordUtils {
             //获取docx解析对象
             XWPFDocument document = new XWPFDocument(POIXMLDocument.openPackage(inputUrl));
             //解析替换文本段落对象
-            WorderToNewWordUtils.changeText(document, textMap);
+            WordToNewWordTemplateUtils.changeText(document, textMap);
             //解析替换表格对象
-            WorderToNewWordUtils.changeTable(document, textMap, tableList);
+            WordToNewWordTemplateUtils.changeTable(document, textMap, tableList);
 
             //生成新的word
             File file = new File(outputUrl);
@@ -219,6 +219,6 @@ public class WorderToNewWordUtils {
         testList.add(new String[]{"3","3AA","3BB","3CC"});
         testList.add(new String[]{"4","4AA","4BB","4CC"});
 
-        WorderToNewWordUtils.changWord(inputUrl, outputUrl, testMap, testList);
+        WordToNewWordTemplateUtils.changWord(inputUrl, outputUrl, testMap, testList);
     }
 }

@@ -49,7 +49,7 @@ import java.math.BigInteger;
  * @CreateTime: 2020-05-07 16:09
  */
 @Slf4j
-public class WordTest {
+public class WordHeaderFootTest {
 
     public void test1(){
         XWPFDocument doc = new XWPFDocument();
