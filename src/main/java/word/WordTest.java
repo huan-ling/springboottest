@@ -44,6 +44,7 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 
 /**
+ * 页眉和页脚的设置
  * @Author: wb_xugz
  * @CreateTime: 2020-05-07 16:09
  */
@@ -111,7 +112,7 @@ public class WordTest {
          * */
         if (StringUtils.isNotEmpty(logoFilePath)) {
             String imgFile = "logo.jpg";
-            byte[] bs = getBytes("E:\\2020-dev\\管理文件\\05\\logo.jpg");
+            byte[] bs = getBytes("logo.jpg");
             InputStream is = new ByteArrayInputStream(bs);
 
             XWPFPicture picture = run.addPicture(is, XWPFDocument.PICTURE_TYPE_JPEG, imgFile, Units.toEMU(80), Units.toEMU(45));

@@ -5,9 +5,11 @@ import com.huan.springboottest.common.exception.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.POIXMLDocument;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.Borders;
+import org.apache.poi.xwpf.usermodel.BreakClear;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFHeader;
@@ -17,6 +19,7 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.apache.xmlbeans.impl.xb.xmlschema.SpaceAttribute;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTHMerge;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTabStop;
@@ -45,8 +48,11 @@ import java.util.Objects;
 public class WordUtil {
 
 
+    private static final String TEMPLATE_PATH = "template.docx";
 
-    public static final String TEMPLATE_PATH = "template.docx";
+    private static final String COMPANY_NAME = "金龙联合汽车工业（苏州）有限公司";
+
+    private static final String LOGO_PATH = "logo.jpg";
 
     public static void main(String[] args) {
         String title = "文件名称";
@@ -80,12 +86,31 @@ public class WordUtil {
 
             List<String[]> detailList = Lists.newArrayList(
                     new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
+                    new String[]{"1", "2", null, "", "", ""},
                     new String[]{"1", "2", "3", "", "", ""}
             );
             handleTable(doc, detailList, 2);
 
-            // 页眉 页脚
-            createHeader(doc, "金龙联合汽车工业（苏州）有限公司" , "logo.jpg");
+            // 页眉
+            createHeader(doc,"C00-000-00-01");
 
             fos = new FileOutputStream(toPath);
             doc.write(fos);
@@ -99,6 +124,19 @@ public class WordUtil {
                 fos.close();
             }
         }
+    }
+
+    private static void createHeader(XWPFDocument doc, String proNo) throws Exception{
+        List<XWPFHeader> headerList = doc.getHeaderList();
+        List<XWPFRun> runs = headerList.get(0).getParagraphs().get(0).getRuns();
+        XWPFRun run = runs.get(0);
+        run.setText("",0);
+        FileInputStream fis = new FileInputStream(LOGO_PATH);
+        run.addPicture(fis, XWPFDocument.PICTURE_TYPE_JPEG, LOGO_PATH,  Units.toEMU(50), Units.toEMU(18));
+        fis.close();
+        runs.get(2).setText(proNo,0);
+        runs.get(4).setText(COMPANY_NAME,0);
+        headerList.get(0).setXWPFDocument(doc);
     }
 
     private static void handleTable(XWPFDocument doc, List<String[]> contentList, int tableIndex) {
@@ -129,56 +167,9 @@ public class WordUtil {
         });
     }
 
-    private static void createHeader(XWPFDocument doc, String orgFullName, String logoPath) throws Exception {
-        /*
-         * 对页眉段落作处理，使公司logo图片在页眉左边，公司全称在页眉右边
-         * */
-        CTSectPr sectPr = doc.getDocument().getBody().addNewSectPr();
-        XWPFHeaderFooterPolicy headerFooterPolicy = new XWPFHeaderFooterPolicy(doc, sectPr);
-        XWPFHeader header = headerFooterPolicy.createHeader(XWPFHeaderFooterPolicy.DEFAULT);
-
-        XWPFParagraph paragraph = header.createParagraph();
-        paragraph.setAlignment(ParagraphAlignment.LEFT);
-        paragraph.setBorderBottom(Borders.THICK);
-
-//        CTTabStop tabStop = paragraph.getCTP().getPPr().addNewTabs().addNewTab();
-//        tabStop.setVal(STTabJc.RIGHT);
-//        int twipsPerInch = 1440;
-//        tabStop.setPos(BigInteger.valueOf(6 * twipsPerInch));
-
-        XWPFRun run = paragraph.createRun();
-        //setXWPFRunStyle(run, "新宋体", 10);
-
-        /*
-         * 根据公司logo在ftp上的路径获取到公司到图片字节流
-         * 添加公司logo到页眉，logo在左边
-         * */
-        String imgFile = "logo.jpg";
-        FileInputStream fis = new FileInputStream(logoPath);
-        XWPFPicture picture = run.addPicture(fis, XWPFDocument.PICTURE_TYPE_JPEG, imgFile, Units.toEMU(50), Units.toEMU(18));
-
-//            String blipID = "";
-//            for (XWPFPictureData picturedata : header.getAllPackagePictures()) {    //这段必须有，不然打开的logo图片不显示
-//                blipID = header.getRelationId(picturedata);
-//            }
-//            picture.getCTPicture().getBlipFill().getBlip().setEmbed(blipID);
-        //run.addTab();
-        fis.close();
-
-
-        /*
-         * 添加字体页眉，公司全称
-         * 公司全称在右边
-         * */
-        if (StringUtils.isNotEmpty(orgFullName)) {
-            run = paragraph.createRun();
-            run.setText(orgFullName);
-            // setXWPFRunStyle(run, "新宋体", 10);
-        }
-    }
-
     /**
      * 如果有合并行 则加粗
+     *
      * @param data
      * @return
      */
@@ -188,6 +179,7 @@ public class WordUtil {
 
     /**
      * 合并
+     *
      * @param tableCell
      * @param mergeValue
      */
