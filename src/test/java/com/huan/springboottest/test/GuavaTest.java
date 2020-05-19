@@ -22,7 +22,7 @@ import java.util.List;
  * @Author: Huan
  * @CreateTime: 2019-07-15 11:16
  */
-public class MyTest {
+public class GuavaTest {
 
     /**
      * 连接字符串

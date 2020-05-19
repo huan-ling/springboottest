@@ -5,40 +5,35 @@ import com.huan.springboottest.common.exception.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.POIXMLDocument;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
-import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
-import org.apache.poi.xwpf.usermodel.Borders;
-import org.apache.poi.xwpf.usermodel.BreakClear;
-import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFHeader;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFPicture;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
-import org.apache.xmlbeans.impl.xb.xmlschema.SpaceAttribute;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTHMerge;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTabStop;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTString;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblBorders;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTc;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STBorder;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STMerge;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTabJc;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STOnOff;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Author: wb_xugz
@@ -59,7 +54,7 @@ public class WordUtil {
         String toPath = "template01.docx";
         Map<String, String> map = new HashMap<>();
         map.put("title", "文件名称");
-        map.put("target", "文件的目的");
+        map.put("target", "文件的目的 文件木第");
         map.put("range", "文件的范围");
         try {
             generateDoc(title, toPath, map);
@@ -70,7 +65,7 @@ public class WordUtil {
     }
 
     private static String[] getArray() {
-        return new String[]{"1", "2", "3", "4"};
+        return new String[]{"1", "2", "文件的目的 文件木第的目的 文件木第的目的 文件木第的目的 文件木第的目的 文件木第的目的 文件木第", "4"};
     }
 
     public static void generateDoc(String title, String toPath, Map<String, String> map) throws Exception {
@@ -79,7 +74,8 @@ public class WordUtil {
         String tempPath = copy(toPath);
         try {
             doc = getDoc(tempPath);
-            setInfo(doc, map);
+            List<Integer> removeParagraph = Lists.newArrayList();
+            setInfo(doc, map, removeParagraph);
             List<String[]> contentList = Lists.newArrayList(getArray(), getArray(), getArray());
             handleTable(doc, contentList, 0);
             handleTable(doc, null, 1);
@@ -110,7 +106,7 @@ public class WordUtil {
             handleTable(doc, detailList, 2);
 
             // 页眉
-            createHeader(doc,"C00-000-00-01");
+            createHeader(doc, "C00-000-00-01");
 
             fos = new FileOutputStream(toPath);
             doc.write(fos);
@@ -126,34 +122,45 @@ public class WordUtil {
         }
     }
 
-    private static void createHeader(XWPFDocument doc, String proNo) throws Exception{
+    private static void createHeader(XWPFDocument doc, String proNo) throws Exception {
         List<XWPFHeader> headerList = doc.getHeaderList();
         List<XWPFRun> runs = headerList.get(0).getParagraphs().get(0).getRuns();
         XWPFRun run = runs.get(0);
-        run.setText("",0);
+        run.setText("", 0);
         FileInputStream fis = new FileInputStream(LOGO_PATH);
-        run.addPicture(fis, XWPFDocument.PICTURE_TYPE_JPEG, LOGO_PATH,  Units.toEMU(50), Units.toEMU(18));
+        run.addPicture(fis, XWPFDocument.PICTURE_TYPE_JPEG, LOGO_PATH, Units.toEMU(50), Units.toEMU(18));
         fis.close();
-        runs.get(2).setText(proNo,0);
-        runs.get(4).setText(COMPANY_NAME,0);
+        runs.get(2).setText(proNo, 0);
+        runs.get(4).setText(COMPANY_NAME, 0);
         headerList.get(0).setXWPFDocument(doc);
     }
 
     private static void handleTable(XWPFDocument doc, List<String[]> contentList, int tableIndex) {
         List<XWPFTable> tables = doc.getTables();
         XWPFTable table = tables.get(tableIndex);
+        CTTblPr tblPr = table.getCTTbl().getTblPr();
+
+        CTString styleStr = tblPr.addNewTblStyle();
+
+        styleStr.setVal("StyledTable");
+        //table.getCTTbl().getTblPr().getTblW().setType(STTblWidth.DXA);
         if (contentList == null || contentList.isEmpty()) {
             XWPFTableRow row = table.getRow(0);
+            CTTblBorders tblBorders = table.getCTTbl().getTblPr().addNewTblBorders();
+            tblBorders.addNewTop().setVal(STBorder.Enum.forInt(STBorder.INT_NONE));
+            System.out.println(tblBorders.getTop());
             row.getCell(0).setText("无");
             return;
         }
 
-        contentList.stream().forEach(c -> {
+        contentList.forEach(c -> {
             XWPFTableRow row = table.createRow();
             List<XWPFTableCell> cellList = row.getTableCells();
             boolean bold = isBold(c);
             for (int i = 0; i < cellList.size(); i++) {
-                XWPFRun run = cellList.get(i).getParagraphs().get(0).createRun();
+                XWPFParagraph paragraph = cellList.get(i).getParagraphs().get(0);
+                cellList.get(i).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+                XWPFRun run = paragraph.createRun();
                 run.setBold(bold);
                 if (c[i] == null) {
                     setColMerge(cellList.get(i), STMerge.CONTINUE);
@@ -162,6 +169,11 @@ public class WordUtil {
                 }
                 if (c[i] != null) {
                     run.setText(c[i], 0);
+//                    run.addBreak(BreakClear.LEFT);
+//
+////                    //run.setText("ds",1);
+////                    paragraph.createRun().setText("一行");
+//                    run.setText("ds");
                 }
             }
         });
@@ -169,7 +181,6 @@ public class WordUtil {
 
     /**
      * 如果有合并行 则加粗
-     *
      * @param data
      * @return
      */
@@ -179,7 +190,6 @@ public class WordUtil {
 
     /**
      * 合并
-     *
      * @param tableCell
      * @param mergeValue
      */
@@ -214,11 +224,20 @@ public class WordUtil {
         xwpfRun.setText(title, 0);
     }
 
-    private static void setInfo(XWPFDocument doc, Map<String, String> map) {
+    private static void setInfo(XWPFDocument doc, Map<String, String> map, List<Integer> removeParagraph) {
         List<XWPFParagraph> paragraphs = doc.getParagraphs();
+
+        AtomicInteger index = new AtomicInteger(-1);
         paragraphs.forEach(p -> {
+            index.getAndIncrement();
+            System.out.println(p.getText() + "  " + index.get());
             if (needReplace(p.getText())) {
-                p.getRuns().get(0).setText(getReplaceText(p.getText(), map), 0);
+                String value = getReplaceText(p.getText(), map);
+                if (StringUtils.isEmpty(value)) {
+                    removeParagraph.add(index.get());
+                } else {
+                    p.getRuns().get(0).setText(value, 0);
+                }
             }
         });
     }
