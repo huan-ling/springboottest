@@ -1,6 +1,6 @@
 package word;
 
-import org.apache.poi.POIXMLDocument;
+import org.apache.poi.ooxml.POIXMLDocument;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;

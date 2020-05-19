@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.huan.springboottest.common.exception.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.POIXMLDocument;
+import org.apache.poi.ooxml.POIXMLDocument;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFHeader;
@@ -21,7 +21,6 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTc;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STBorder;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STMerge;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.STOnOff;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

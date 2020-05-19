@@ -17,7 +17,7 @@ import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Table;
 import com.lowagie.text.rtf.RtfWriter2;
-import org.apache.poi.POIXMLDocument;
+import org.apache.poi.ooxml.POIXMLDocument;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.TextAlignment;
