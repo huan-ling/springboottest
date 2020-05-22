@@ -3,6 +3,7 @@ package com.higer.pro.common.word;
 import ch.qos.logback.core.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.fop.fonts.truetype.TTFFile;
 import org.docx4j.Docx4J;
 import org.docx4j.Docx4jProperties;
 import org.docx4j.convert.out.FOSettings;
@@ -42,7 +43,7 @@ import java.io.File;
 public class Word2Pdf4Docx4j {
 
     public static void main(String[] args) throws Exception {
-        convertDocxToPdf("test.xml", "template01.pdf");
+        convertDocxToPdf("docx4j-word.docx", "template01.pdf");
     }
 
     /**
@@ -88,32 +89,35 @@ public class Word2Pdf4Docx4j {
                 }
                 P  p = (P)c;
                 PPr pPr = p.getPPr();
+                if(pPr == null){
+                    return;
+                }
                 PPrBase.Spacing spacing = pPr.getSpacing();
                 ParaRPr rPr1 = pPr.getRPr();
-                BooleanDefaultTrue booleanDefaultTrue = new BooleanDefaultTrue();
-                booleanDefaultTrue.setVal(true);
-                rPr1.setB(booleanDefaultTrue);
-                rPr1.setBCs(booleanDefaultTrue);
+//                BooleanDefaultTrue booleanDefaultTrue = new BooleanDefaultTrue();
+//                booleanDefaultTrue.setVal(true);
+//                rPr1.setB(booleanDefaultTrue);
+//                rPr1.setBCs(booleanDefaultTrue);
                 PPrBase.Spacing spacing1 = new PPrBase.Spacing();
-                spacing1.setLine(new BigInteger("680"));
+                spacing1.setLine(new BigInteger("480"));
                 pPr.setSpacing(spacing1);
-                if(spacing != null){
-                    spacing.setLine(new BigInteger("680"));
-                    System.out.println(">>>>>>>>>>>"+c.getClass());
-                    System.out.println(c);
-                }
-                List<Object> content1 = p.getContent();
-                content1.stream().forEach(t->{
-                    if(!(t instanceof R)){
-                        return;
-                    }
-                    R r = (R)t;
-                    RPr rPr = r.getRPr();
-
-                    //booleanDefaultTrue.setVal(true);
-                    rPr.setB(booleanDefaultTrue);
-                    rPr.setBCs(booleanDefaultTrue);
-                });
+//                if(spacing != null){
+//                    spacing.setLine(new BigInteger("680"));
+//                    System.out.println(">>>>>>>>>>>"+c.getClass());
+//                    System.out.println(c);
+//                }
+//                List<Object> content1 = p.getContent();
+//                content1.stream().forEach(t->{
+//                    if(!(t instanceof R)){
+//                        return;
+//                    }
+//                    R r = (R)t;
+//                    RPr rPr = r.getRPr();
+//
+//                    //booleanDefaultTrue.setVal(true);
+//                    rPr.setB(booleanDefaultTrue);
+//                    rPr.setBCs(booleanDefaultTrue);
+//                });
 
                 // rPr.setB(BooleanDefaultTrue.);
                 c.toString();
@@ -135,7 +139,7 @@ public class Word2Pdf4Docx4j {
 
     private static void setFontMapper(WordprocessingMLPackage mlPackage) throws Exception {
         Mapper fontMapper = new IdentityPlusMapper();
-        fontMapper.put("隶书", PhysicalFonts.get("LiSu"));
+//        fontMapper.put("隶书", PhysicalFonts.get("LiSu"));
        // fontMapper.put("宋体", PhysicalFonts.get("SimSun"));
 //        fontMapper.put("微软雅黑", PhysicalFonts.get("Microsoft Yahei"));
 //        fontMapper.put("黑体", PhysicalFonts.get("SimHei"));
@@ -150,25 +154,24 @@ public class Word2Pdf4Docx4j {
 //        fontMapper.put("华文宋体", PhysicalFonts.get("STSong"));
 //        fontMapper.put("华文中宋", PhysicalFonts.get("STZhongsong"));
 
+//        PhysicalFonts.put("PMingLiU", PhysicalFonts.get("SimSun"));
 
 
-
-       // fontMapper.registerBoldForm("宋体", PhysicalFonts.get("SimSun"));
-        Mapper fontMapper1 = mlPackage.getFontMapper();
-        mlPackage.setFontMapper(fontMapper);
-        PhysicalFonts.addPhysicalFonts("dengb", new URL("file://DENGB.ttf"));
-
-        PhysicalFonts.addPhysicalFonts("songti", new URL("file://宋体-粗体.ttf"));
-        //宋体&新宋体
-        PhysicalFont simsunFont = PhysicalFonts.get("dengb");
-        PhysicalFont simsunFont1 = PhysicalFonts.get("songti");
-
-//        PhysicalFont boldForm = PhysicalFonts.getBoldForm(simsunFont);
-//        System.out.println(">>>>>>>>>>>>>>"+boldForm.getName());
-
-        fontMapper.put("宋体", simsunFont);
-        fontMapper.put("Times New Roman", simsunFont1);
-
+//       // fontMapper.registerBoldForm("宋体", PhysicalFonts.get("SimSun"));
+//        mlPackage.setFontMapper(fontMapper);
+//        //PhysicalFonts.addPhysicalFonts("dengb", new URL("file:DENGB.ttf"));
+//
+//        PhysicalFonts.addPhysicalFonts("songti", new URL("file:宋体-粗体.ttf"));
+//        //宋体&新宋体
+//        PhysicalFont simsunFont = PhysicalFonts.get("dengb");
+//        PhysicalFont simsunFont1 = PhysicalFonts.get("songti");
+//
+//        //PhysicalFont boldForm = PhysicalFonts.getBoldForm(simsunFont);
+////        System.out.println(">>>>>>>>>>>>>>"+boldForm.getName());
+//
+//        fontMapper.put("SimSun", simsunFont);
+//        fontMapper.put("Times-Bold", simsunFont);
+//        //fontMapper.put("Times New Roman", simsunFont1);
 
         //Docx4jProperties.g
 

@@ -105,7 +105,7 @@ public class WordUtil {
             handleTable(doc, detailList, 2);
 
             // 页眉
-            createHeader(doc, "C00-000-00-01");
+            createHeader(doc, "C00-000-00-01-v1.0");
 
             fos = new FileOutputStream(toPath);
             doc.write(fos);
@@ -123,15 +123,32 @@ public class WordUtil {
 
     private static void createHeader(XWPFDocument doc, String proNo) throws Exception {
         List<XWPFHeader> headerList = doc.getHeaderList();
-        List<XWPFRun> runs = headerList.get(0).getParagraphs().get(0).getRuns();
-        XWPFRun run = runs.get(0);
-        run.setText("", 0);
+        List<XWPFTable> tables = headerList.get(headerList.size() - 1).getTables();
+        System.out.println(tables.size());
+        XWPFTable table = tables.get(0);
+        XWPFTableRow row = table.getRow(0);
+
+
+        XWPFTableCell cell = row.getCell(0);
+        XWPFRun run = cell.getParagraphs().get(0).createRun();
         FileInputStream fis = new FileInputStream(LOGO_PATH);
         run.addPicture(fis, XWPFDocument.PICTURE_TYPE_JPEG, LOGO_PATH, Units.toEMU(50), Units.toEMU(18));
-        fis.close();
-        runs.get(2).setText(proNo, 0);
-        runs.get(4).setText(COMPANY_NAME, 0);
-        headerList.get(0).setXWPFDocument(doc);
+
+        XWPFTableCell cell1 = row.getCell(1);
+        cell1.getParagraphs().get(0).createRun().setText(proNo, 0);
+
+        XWPFTableCell cell2 = row.getCell(2);
+        cell2.getParagraphs().get(0).createRun().setText(COMPANY_NAME, 0);
+
+//        List<XWPFRun> runs = headerList.get(0).getParagraphs().get(0).getRuns();
+//        XWPFRun run = runs.get(0);
+//        run.setText("", 0);
+//        FileInputStream fis = new FileInputStream(LOGO_PATH);
+//        run.addPicture(fis, XWPFDocument.PICTURE_TYPE_JPEG, LOGO_PATH, Units.toEMU(50), Units.toEMU(18));
+//        fis.close();
+//        runs.get(2).setText(proNo, 0);
+//        runs.get(4).setText(COMPANY_NAME, 0);
+//        headerList.get(0).setXWPFDocument(doc);
     }
 
     private static void handleTable(XWPFDocument doc, List<String[]> contentList, int tableIndex) {
