@@ -3,6 +3,7 @@ package com.higer.pro.common.word;
 import ch.qos.logback.core.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.fonts.truetype.TTFFile;
 import org.docx4j.Docx4J;
 import org.docx4j.Docx4jProperties;
@@ -11,6 +12,7 @@ import org.docx4j.fonts.IdentityPlusMapper;
 import org.docx4j.fonts.Mapper;
 import org.docx4j.fonts.PhysicalFont;
 import org.docx4j.fonts.PhysicalFonts;
+import org.docx4j.fonts.fop.fonts.EmbedFontInfo;
 import org.docx4j.model.styles.Node;
 import org.docx4j.model.styles.StyleTree;
 import org.docx4j.model.styles.Tree;
@@ -43,7 +45,7 @@ import java.io.File;
 public class Word2Pdf4Docx4j {
 
     public static void main(String[] args) throws Exception {
-        convertDocxToPdf("docx4j-word.docx", "template01.pdf");
+        convertDocxToPdf("test.docx", "template01.pdf");
     }
 
     /**
@@ -126,6 +128,7 @@ public class Word2Pdf4Docx4j {
             setFontMapper(mlPackage);
             Docx4J.toPDF(mlPackage, new FileOutputStream(new File(pdfPath)));
 
+
 //            FOSettings fo = new FOSettings();
 //            fo.setWmlPackage(mlPackage);
 //            Docx4J.toFO(fo, new FileOutputStream(new File(pdfPath)), Docx4J.FLAG_EXPORT_PREFER_XSL);
@@ -158,8 +161,9 @@ public class Word2Pdf4Docx4j {
 
 
 //       // fontMapper.registerBoldForm("宋体", PhysicalFonts.get("SimSun"));
-//        mlPackage.setFontMapper(fontMapper);
-//        //PhysicalFonts.addPhysicalFonts("dengb", new URL("file:DENGB.ttf"));
+
+        PhysicalFonts.addPhysicalFonts("deng", new URL("file:Deng.ttf"));
+        PhysicalFonts.addPhysicalFonts("DengXian Bold", new URL("file:Dengb.ttf"));
 //
 //        PhysicalFonts.addPhysicalFonts("songti", new URL("file:宋体-粗体.ttf"));
 //        //宋体&新宋体
@@ -172,7 +176,19 @@ public class Word2Pdf4Docx4j {
 //        fontMapper.put("SimSun", simsunFont);
 //        fontMapper.put("Times-Bold", simsunFont);
 //        //fontMapper.put("Times New Roman", simsunFont1);
+        fontMapper.put("等线", PhysicalFonts.get("DengXian Bold"));
+//        fontMapper.put("DengXian Bold", PhysicalFonts.get("DengXian Bold"));
+//        fontMapper.put("等线 Bold", PhysicalFonts.get("dengb"));
+//        fontMapper.put("PMingLiU", PhysicalFonts.get("dengb"));
+        fontMapper.put("等线", PhysicalFonts.get("deng"));
+        PhysicalFont dengb = PhysicalFonts.get("dengb");
+     //   EmbedFontInfo embedFontInfo = dengb.getEmbedFontInfo();
+        fontMapper.registerBoldForm("等线",dengb);
+        fontMapper.registerRegularForm("等线",PhysicalFonts.get("deng"));
 
+        mlPackage.setFontMapper(fontMapper);
+        log.info("{}", PhysicalFonts.get("any"));
+        log.info(">>>>>>>>>>{}",mlPackage.getMainDocumentPart().fontsInUse());
         //Docx4jProperties.g
 
     }
