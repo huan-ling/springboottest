@@ -13,6 +13,7 @@ import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.junit.Test;
 import org.plutext.jaxb.svg11.G;
+import org.springframework.web.util.HtmlUtils;
 import sun.plugin.util.UIUtil;
 
 import java.io.BufferedOutputStream;
@@ -107,6 +108,13 @@ public class MyTest3 {
     public void test6(){
         A<List<A>> listA = new A<>();
         Class<? extends A> aClass = listA.getClass();
+    }
+
+    @Test
+    public void test7(){
+        String html = "&nbsp; &lt;<br>d";
+        String s = HtmlUtils.htmlUnescape(html);
+        System.out.println(s);
     }
 }
 

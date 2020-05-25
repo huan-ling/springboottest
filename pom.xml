@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <poi.version>4.0.0</poi.version>
+        <poi.version>4.1.1</poi.version>
         <docx4j.version>6.1.2</docx4j.version>
         <export.fo.version>8.1.6</export.fo.version>
     </properties>
@@ -73,7 +73,6 @@
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
             <version>3.1</version>
-
         </dependency>
 
         <dependency>
