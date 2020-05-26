@@ -254,6 +254,12 @@
             <version>2.6</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.8</version>
+        </dependency>
+
         <!--   pdf相关    -->
         <dependency>
             <groupId>com.itextpdf</groupId>

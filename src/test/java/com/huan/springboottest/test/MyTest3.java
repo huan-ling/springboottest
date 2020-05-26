@@ -116,5 +116,12 @@ public class MyTest3 {
         String s = HtmlUtils.htmlUnescape(html);
         System.out.println(s);
     }
+
+    @Test
+    public void test8(){
+        String s1 = "4.1";
+        String s2 = "4.1.1";
+        System.out.println(s1.compareTo(s2));
+    }
 }
 

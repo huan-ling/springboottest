@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ooxml.POIXMLDocument;
 import org.apache.poi.util.Units;
+import org.apache.poi.xwpf.usermodel.TableWidthType;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFHeader;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -28,6 +29,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +56,7 @@ public class WordUtil {
         String toPath = "template01.docx";
         Map<String, String> map = new HashMap<>();
         map.put("title", "文件名称");
-        map.put("target", "文件的目的 文件木第");
+        map.put("target", "文件的目的 文件木第文件的目的 文件木第文件的目的 文件木第文件的目的 文件木第文件的目的 文件木第文件的目的 文件木第");
         map.put("range", "文件的范围");
         try {
             generateDoc(title, toPath, map);
@@ -77,8 +79,12 @@ public class WordUtil {
             List<Integer> removeParagraph = Lists.newArrayList();
             setInfo(doc, map, removeParagraph);
             List<String[]> contentList = Lists.newArrayList(getArray(), getArray(), getArray());
-            handleTable(doc, contentList, 0);
-            handleTable(doc, null, 1);
+           // handleTable(doc, contentList, 0);
+            List<String[]> contentList1 = Lists.newArrayList(
+                    new String[]{"术语1","术语描述1"},
+                    new String[]{"术语2","术语描述2"}
+            );
+           handleTable(doc, contentList1, 1);
 
             List<String[]> detailList = Lists.newArrayList(
                     new String[]{"1", "2", null, "", "", ""},
@@ -155,11 +161,26 @@ public class WordUtil {
     private static void handleTable(XWPFDocument doc, List<String[]> contentList, int tableIndex) {
         List<XWPFTable> tables = doc.getTables();
         XWPFTable table = tables.get(tableIndex);
-        CTTblPr tblPr = table.getCTTbl().getTblPr();
 
-        CTString styleStr = tblPr.addNewTblStyle();
+        table.setWidthType(TableWidthType.DXA);
 
-        styleStr.setVal("StyledTable");
+        log.info(">>>{}", table.getWidth());
+        log.info(">>>{}", table.getRow(0).getCell(0).getWidth());
+        log.info(">>>{}", table.getWidthType());
+        log.info(">>>{}", table.getRow(0).getCell(0).getWidthType());
+
+        XWPFTableRow row0 = table.getRow(0);
+        List<XWPFTableCell> tableCellList = row0.getTableCells();
+        List<Integer> widthList = new ArrayList<>(tableCellList.size());
+        tableCellList.stream().forEach(t ->{
+            widthList.add(t.getWidth());
+        });
+
+//        CTTblPr tblPr = table.getCTTbl().getTblPr();
+//
+//        CTString styleStr = tblPr.addNewTblStyle();
+//
+//        styleStr.setVal("StyledTable");
         //table.getCTTbl().getTblPr().getTblW().setType(STTblWidth.DXA);
         if (contentList == null || contentList.isEmpty()) {
             XWPFTableRow row = table.getRow(0);
@@ -175,6 +196,10 @@ public class WordUtil {
             List<XWPFTableCell> cellList = row.getTableCells();
             boolean bold = isBold(c);
             for (int i = 0; i < cellList.size(); i++) {
+                XWPFTableCell xwpfTableCell = cellList.get(0);
+                xwpfTableCell.setWidthType(TableWidthType.DXA);
+                xwpfTableCell.setWidth(String.valueOf(widthList.get(i)/20));
+
                 XWPFParagraph paragraph = cellList.get(i).getParagraphs().get(0);
                 cellList.get(i).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
                 XWPFRun run = paragraph.createRun();
@@ -186,6 +211,8 @@ public class WordUtil {
                 }
                 if (c[i] != null) {
                     run.setText(c[i], 0);
+//                    log.info("===={}",xwpfTableCell.getWidthType());
+//                    log.info("===={}",xwpfTableCell.getWidth());
 //                    run.addBreak(BreakClear.LEFT);
 //
 ////                    //run.setText("ds",1);
@@ -195,7 +222,6 @@ public class WordUtil {
             }
         });
     }
-
 
 
     /**
@@ -255,6 +281,8 @@ public class WordUtil {
                 if (StringUtils.isEmpty(value)) {
                     removeParagraph.add(index.get());
                 } else {
+                    // 首行缩进设置
+                    p.setIndentationFirstLine(400);
                     p.getRuns().get(0).setText(value, 0);
                 }
             }
