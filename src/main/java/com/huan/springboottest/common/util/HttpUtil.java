@@ -157,6 +157,7 @@ public class HttpUtil {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            httpGet.releaseConnection();
             try {
                 // 释放资源
                 if (httpClient != null) {

@@ -1,5 +1,4 @@
-package com.huan.springboottest.common.util;
-
+package com.huan.springboottest;
 
 import org.apache.commons.lang3.time.StopWatch;
 
@@ -9,11 +8,11 @@ import java.lang.management.MemoryUsage;
 
 /**
  * @Author: wb_xugz
- * @CreateTime: 2020-06-03 17:21
+ * @CreateTime: 2020-06-23 10:52
  */
-public class HttpUtil2 {
+public class MemoryTest {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception{
         StopWatch stopWatch = StopWatch.createStarted();
         Thread.sleep(1000);
         stopWatch.stop();
@@ -30,5 +29,4 @@ public class HttpUtil2 {
         System.out.println("Total Memory: " + totalMemorySize / (1024 * 1024) + " Mb");
         System.out.println("Free Memory: " + usedMemorySize / (1024 * 1024) + " Mb");
     }
-
 }
